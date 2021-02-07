@@ -13,7 +13,7 @@
             <div class="col-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('playlist.index')}}">Playlist</a>
+                        <a class="nav-link" href="{{route('playlist.index')}}">Playlists</a>
                     </li>
                 </ul>
             </div>
