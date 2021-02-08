@@ -1,10 +1,14 @@
 @extends('layouts.main')
 
+@section('title')
+    Playlists
+@endsection
+
 @section('content')
     <table>
         <thead>
             <tr>
-                <th>Playlist</th>
+                <th>Playlist Collection</th>
             </tr>
         </thead>
         <tbody>
