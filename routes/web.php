@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PlaylistController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,9 @@ Route::get('/', function () {
 });
 
 // MVC - Model View Controller
+
+Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
+Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
 
 Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlist.index');
 Route::get('/playlists/{id}', [PlaylistController::class, 'show'])->name('playlist.show');
