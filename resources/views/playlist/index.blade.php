@@ -8,7 +8,7 @@
     <table>
         <thead>
             <tr>
-                <th>Playlist Collection</th>
+                <th>Name</th>
             </tr>
         </thead>
         <tbody>
