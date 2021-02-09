@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\AlbumController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,8 +22,15 @@ Route::get('/', function () {
 
 // MVC - Model View Controller
 
+//get to read information
 Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
 Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
 
 Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlist.index');
 Route::get('/playlists/{id}', [PlaylistController::class, 'show'])->name('playlist.show');
+
+Route::get('/albums', [AlbumController::class, 'index'])->name('album.index');
+Route::get('/albums/create', [AlbumController::class, 'create'])->name('album.create');
+Route::post('/albums', [AlbumController::class, 'store'])->name('album.store'); //same url but with post request to take in info from the form created
+Route::get('/albums/{id}/edit', [AlbumController::class, 'edit'])->name('album.edit');
+Route::post('/albums/{id}', [AlbumController::class, 'update'])->name('album.update');
