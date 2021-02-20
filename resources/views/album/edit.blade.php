@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-    Editing {{$ablum->title}}
+    Editing {{$album->title}}
 @endsection
 
 @section('content')
@@ -9,7 +9,13 @@
         @csrf
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
-            <input type="text" name="title" id="title" class="form-control" value="{{old ('title', $album->title)}}">
+            <input 
+                type="text"
+                name="title"
+                id="title"
+                class="form-control"
+                value="{{old ('title', $album->title)}}"
+            >
             @error('title')
                 <small class="text-danger">{{$message}}</small>
             @enderror
@@ -21,7 +27,7 @@
                 @foreach($artists as $artist)
                     <option
                         value="{{$artist->id}}"
-                        {{ (string)$artist->id === old('artist') ? "selected" : ""}}
+                        {{ $artist->id === (int)old('artist', $album->artist_id) ? "selected" : ""}}
                     >
                         {{$artist->name}}
                     </option>

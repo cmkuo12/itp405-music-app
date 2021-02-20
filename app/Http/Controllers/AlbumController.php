@@ -34,7 +34,7 @@ class AlbumController extends Controller
     public function store(Request $request) //request object containing all data coming in from the request (what is typed into the form)
     {
         $request->validate([
-            'title' => 'required|max:20', //'|' key to add requirement
+            'title' => 'required|max:50', //'|' key to add requirement
             'artist' => 'required|exists:artists,id', //must exist in artists table under id column
         ]);
         
@@ -55,12 +55,24 @@ class AlbumController extends Controller
         $album = DB::table('albums')->where('id', '=', $id)->first();
         return view('album.edit', [
             'artists' => $artists,
-            'album' => $album
+            'album' => $album,
         ]);
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
+        $request->validate([
+            'title' => 'required|max:50', //'|' key to add requirement
+            'artist' => 'required|exists:artists,id', //must exist in artists table under id column
+        ]);
 
+        DB::table('albums')->where('id', '=', $id)->update([
+            'title' => $request->input('title'),
+            'artist_id' => $request->input('artist'),
+        ]);
+
+        return redirect()
+            ->route('album.edit', ['id' => $id])
+            ->with('success', "Successfully updated {$request->input('title')}");
     }
 }

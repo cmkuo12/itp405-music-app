@@ -3,11 +3,6 @@
 @section('title', 'Albums')
 
 @section('content')
-    @if(session('success'))
-        <div class="alert alert-success" role="alert">
-            {{session('success')}}
-        </div>
-    @endif
     <div class="text-end mb-3">
         <a href="{{route('album.create')}}">New Album</a>
     </div>
@@ -29,9 +24,9 @@
                         {{$album->artist}}
                     </td>
                     <td>
-                        {{-- <a href="{{route('album.edit', [ 'id' => $album->id] )}}">
+                        <a href="{{route('album.edit', [ 'id' => $album->id] )}}">
                             Edit
-                        </a> --}}
+                        </a>
                     </td>
                 </tr>
             @endforeach
