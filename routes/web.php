@@ -3,6 +3,7 @@
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\TrackController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,3 +35,7 @@ Route::get('/albums/create', [AlbumController::class, 'create'])->name('album.cr
 Route::post('/albums', [AlbumController::class, 'store'])->name('album.store'); //same url but with post request to take in info from the form created
 Route::get('/albums/{id}/edit', [AlbumController::class, 'edit'])->name('album.edit');
 Route::post('/albums/{id}', [AlbumController::class, 'update'])->name('album.update');
+
+Route::get('/tracks', [TrackController::class, 'index'])->name('track.index');
+Route::get('/tracks/new', [TrackController::class, 'create'])->name('track.create');
+Route::post('/tracks', [TrackController::class, 'store'])->name('track.store');
