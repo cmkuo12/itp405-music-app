@@ -46,20 +46,23 @@ class TrackController extends Controller
     {
         $request->validate([
             'name' => 'required|max:50', //'|' key to add requirement
-            'album' => 'required|exists:album,id',
+            'album' => 'required|exists:albums,id',
             'media_type' => 'required|exists:media_types,id',
             'genre' => 'required|exists:genres,id',
             'unit_price' => 'required|max:50',
         ]);
         
-        DB::table('albums')->insert([
-           'title' => $request->input('title'),
-           'artist_id' => $request->input('artist'),
+        DB::table('tracks')->insert([
+           'name' => $request->input('name'),
+           'album_id' => $request->input('album'),
+           'media_type_id' => $request->input('media_type'),
+           'genre_id' => $request->input('genre'),
+           'unit_price' => $request->input('unit_price'),
         ]);
 
         return redirect()
-            ->route('album.index')
-            ->with('success', "Successfully created {$request->input('title')}");
+            ->route('track.index')
+            ->with('success', "The track {$request->input('name')} was successfully created");
         //dd($request->input('artist')); //$_POST['artist']
     }
 }

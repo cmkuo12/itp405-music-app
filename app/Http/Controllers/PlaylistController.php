@@ -11,6 +11,7 @@ class PlaylistController extends Controller
     public function index()
     {
         $playlists = DB::table('playlists')
+            ->orderBy('id')
             ->get([
                 'name',
                 'id'
@@ -45,5 +46,30 @@ class PlaylistController extends Controller
             'playlist' => $playlist,
             'tracks' => $tracks
         ]);
+    }
+
+    public function edit($id)
+    {
+        $playlist = DB::table('playlists')->where('id', '=', $id)->first();
+        return view('playlist.edit', [
+            'playlist' => $playlist,
+        ]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:30',
+        ]);
+        
+        $old_playlist = DB::table('playlists')->where('id', '=', $id)->first();
+
+        DB::table('playlists')->where('id', '=', $id)->update([
+            'name' => $request->input('name'),
+        ]);
+
+        return redirect()
+            ->route('playlist.index')
+            ->with('success', "{$old_playlist->name} was successfully renamed to {$request->input('name')}");
     }
 }

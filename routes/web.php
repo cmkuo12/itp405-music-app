@@ -29,6 +29,8 @@ Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.
 
 Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlist.index');
 Route::get('/playlists/{id}', [PlaylistController::class, 'show'])->name('playlist.show');
+Route::get('/playlists/{id}/edit', [PlaylistController::class, 'edit'])->name('playlist.edit');
+Route::post('/playlist/{id}', [PlaylistController::class, 'update'])->name('playlist.update');
 
 Route::get('/albums', [AlbumController::class, 'index'])->name('album.index');
 Route::get('/albums/create', [AlbumController::class, 'create'])->name('album.create');

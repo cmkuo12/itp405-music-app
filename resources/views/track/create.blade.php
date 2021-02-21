@@ -7,7 +7,7 @@
         @csrf
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" name="title" id="name" class="form-control" value="{{old ('name')}}">
+            <input type="text" name="name" id="name" class="form-control" value="{{old ('name')}}">
             @error('name')
                 <small class="text-danger">{{$message}}</small>
             @enderror
@@ -64,9 +64,9 @@
             @enderror
         </div>
         <div class="mb-3">
-            <label for="title" class="form-label">Unit Price</label>
-            <input type="number" name="title" id="title" class="form-control" value="{{old ('title')}}">
-            @error('title')
+            <label for="unit_price" class="form-label">Unit Price</label>
+            <input type="number" step="any" name="unit_price" id="unit_price" class="form-control" value="{{old ('unit_price')}}">
+            @error('unit_price')
                 <small class="text-danger">{{$message}}</small>
             @enderror
         </div>
