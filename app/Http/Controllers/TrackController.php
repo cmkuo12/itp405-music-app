@@ -45,11 +45,11 @@ class TrackController extends Controller
     public function store(Request $request) //request object containing all data coming in from the request (what is typed into the form)
     {
         $request->validate([
-            'name' => 'required|max:50', //'|' key to add requirement
+            'name' => 'required', //'|' key to add requirement
             'album' => 'required|exists:albums,id',
             'media_type' => 'required|exists:media_types,id',
             'genre' => 'required|exists:genres,id',
-            'unit_price' => 'required|max:50',
+            'unit_price' => 'required',
         ]);
         
         DB::table('tracks')->insert([
