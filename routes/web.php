@@ -5,6 +5,11 @@ use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\TrackController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Artist;
+use App\Models\Track;
+use App\Models\Genre;
+use App\Models\Album;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +46,62 @@ Route::post('/albums/{id}', [AlbumController::class, 'update'])->name('album.upd
 Route::get('/tracks', [TrackController::class, 'index'])->name('track.index');
 Route::get('/tracks/new', [TrackController::class, 'create'])->name('track.create');
 Route::post('/tracks', [TrackController::class, 'store'])->name('track.store');
+
+Route::get('/eloquent', function() {
+    //QUERYING
+    // return view('eloquent.tracks', [
+    //     'tracks' => Track::all(),
+    // ]);
+
+    // return view('eloquent.artists', [
+    //     'artists' => Artist::orderBy('name', 'desc')->get(),
+    // ]);
+
+    // return view('eloquent.tracks', [
+    //     'tracks' => Track::where('unit_price', '>', 0.99)->orderBy('name')->get(),
+    // ]);
+
+    // return view('eloquent.artist', [
+    //     'artist' => Artist::find(3),
+    // ]);
+
+    //CREATING NEW ENTRY
+    // $genre = new Genre(); //corresponds to single row in genres table
+    // $genre->name = 'Hip Hop';
+    // $genre->save();
+
+    //DELETING ENTRY
+    // $genre = Genre::find(27); //corresponds to single row in genres table
+    // $genre->delete();
+
+    //UPDATING ENTRY
+    // $genre = Genre::where('name', '=', 'Alternative and Punk')->first();
+    // $genre->name = 'Alternative & Punk';
+    // $genre->save();
+
+    //RELATIONSHIPS
+    // return view('eloquent.has-many', [
+    //     'artist' => Artist::find(50), //Metallica
+    // ]);
+
+    // return view('eloquent.belongs-to', [
+    //     'album' => Album::find(152),
+    // ]);
+    
+    // EAGER LOADING
+    return view('eloquent.eager-loading', [
+        // Has the N+1 problem
+        // 'tracks' => Track::where('unit_price', '>', 0.99)
+        //     ->orderBy('name')
+        //     ->limit(5)
+        //     ->get(),
+
+        //Fixes the N+1 problem (EAGER LOADING)
+        'tracks' => Track::with(['album'])
+            ->orderBy('name')
+            ->limit(5)
+            ->get(),
+    ]);
+
+
+});
