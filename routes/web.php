@@ -9,6 +9,8 @@ use App\Models\Artist;
 use App\Models\Track;
 use App\Models\Genre;
 use App\Models\Album;
+use Illuminate\Support\Facades\URL;
+
 
 
 /*
@@ -102,6 +104,9 @@ Route::get('/eloquent', function() {
             ->limit(5)
             ->get(),
     ]);
-
-
 });
+
+
+if (env('APP_ENV') !== 'local') {
+    URL::forceScheme('https');
+}
