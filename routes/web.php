@@ -4,6 +4,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\TrackController;
+use App\Http\Controllers\EloquentAlbumController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Artist;
 use App\Models\Track;
@@ -39,15 +40,21 @@ Route::get('/playlists/{id}', [PlaylistController::class, 'show'])->name('playli
 Route::get('/playlists/{id}/edit', [PlaylistController::class, 'edit'])->name('playlist.edit');
 Route::post('/playlist/{id}', [PlaylistController::class, 'update'])->name('playlist.update');
 
-Route::get('/albums', [AlbumController::class, 'index'])->name('album.index');
-Route::get('/albums/create', [AlbumController::class, 'create'])->name('album.create');
-Route::post('/albums', [AlbumController::class, 'store'])->name('album.store'); //same url but with post request to take in info from the form created
-Route::get('/albums/{id}/edit', [AlbumController::class, 'edit'])->name('album.edit');
-Route::post('/albums/{id}', [AlbumController::class, 'update'])->name('album.update');
+Route::get('/albums_old', [AlbumController::class, 'index'])->name('album.index');
+Route::get('/albums_old/create', [AlbumController::class, 'create'])->name('album.create');
+Route::post('/albums_old', [AlbumController::class, 'store'])->name('album.store'); //same url but with post request to take in info from the form created
+Route::get('/albums_old/{id}/edit', [AlbumController::class, 'edit'])->name('album.edit');
+Route::post('/albums_old/{id}', [AlbumController::class, 'update'])->name('album.update');
 
 Route::get('/tracks', [TrackController::class, 'index'])->name('track.index');
 Route::get('/tracks/new', [TrackController::class, 'create'])->name('track.create');
 Route::post('/tracks', [TrackController::class, 'store'])->name('track.store');
+
+Route::get('/albums', [EloquentAlbumController::class, 'index'])->name('eloquent_album.index');
+Route::get('/albums/create', [EloquentAlbumController::class, 'create'])->name('eloquent_album.create');
+Route::post('/albums', [EloquentAlbumController::class, 'store'])->name('eloquent_album.store');
+Route::get('/albums/{id}/edit', [EloquentAlbumController::class, 'edit'])->name('eloquent_album.edit');
+Route::post('/albums/{id}', [EloquentAlbumController::class, 'update'])->name('eloquent_album.update');
 
 Route::get('/eloquent', function() {
     //QUERYING
