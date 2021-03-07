@@ -5,6 +5,9 @@ use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\TrackController;
 use App\Http\Controllers\EloquentAlbumController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Artist;
 use App\Models\Track;
@@ -55,6 +58,17 @@ Route::get('/albums/create', [EloquentAlbumController::class, 'create'])->name('
 Route::post('/albums', [EloquentAlbumController::class, 'store'])->name('eloquent_album.store');
 Route::get('/albums/{id}/edit', [EloquentAlbumController::class, 'edit'])->name('eloquent_album.edit');
 Route::post('/albums/{id}', [EloquentAlbumController::class, 'update'])->name('eloquent_album.update');
+
+Route::get('/register', [RegistrationController::class, 'index'])->name('registration.index');
+Route::post('/register', [RegistrationController::class, 'register'])->name('registration.create');
+Route::get('/login', [AuthController::class, 'loginForm'])->name('auth.loginForm'); //presents login form to user
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login'); //processes login
+
+
+Route::middleware(['custom-auth'])->group(function() {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+});
 
 Route::get('/eloquent', function() {
     //QUERYING
