@@ -34,9 +34,7 @@ Route::get('/', function () {
 
 // MVC - Model View Controller
 
-//get to read information
-Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
-Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
+
 
 Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlist.index');
 Route::get('/playlists/{id}', [PlaylistController::class, 'show'])->name('playlist.show');
@@ -66,8 +64,17 @@ Route::post('/login', [AuthController::class, 'login'])->name('auth.login'); //p
 
 
 Route::middleware(['custom-auth'])->group(function() {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    //if not blocked
+    Route::middleware(['not-blocked'])->group(function() {
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index'); //map to controller which returns a view
+        Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
+        Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
+    });
+
+    //if blocked
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    //have to be authenticated to get to blocked route, and hence the below is within 'custom-auth'
+    Route::view('/blocked', 'blocked')->name('blocked');
 });
 
 Route::get('/eloquent', function() {
