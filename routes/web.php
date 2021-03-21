@@ -37,14 +37,11 @@ Route::get('/', function () {
 
 Route::middleware(['custom-auth'])->group(function() {
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-    Route::middleware(['admin-auth'])->group(function() {
-        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-        Route::post('/admin', [AdminController::class, 'configure'])->name('admin.configure');
-    });
 });
 
 Route::middleware(['admin-auth'])->group(function() {
-    //not logged in
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::post('/admin', [AdminController::class, 'configure'])->name('admin.configure');
 });
 
 Route::middleware(['not-maintenance-mode'])->group(function() {
