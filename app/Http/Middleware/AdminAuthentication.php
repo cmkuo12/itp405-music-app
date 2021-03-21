@@ -22,7 +22,7 @@ class AdminAuthentication
         if(Auth::user()->role_id === Role::getAdmin()->id) {
             return $next($request);
         } else {
-            return redirect()->route('auth.loginForm');
+            abort(404);
         }
     }
 }
