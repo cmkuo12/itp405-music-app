@@ -8,6 +8,7 @@ use App\Http\Controllers\EloquentAlbumController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Artist;
 use App\Models\Track;
@@ -34,19 +35,13 @@ Route::get('/', function () {
 
 // MVC - Model View Controller
 
-// Route::middleware(['custom-auth'])->group(function() {
-//     //if not blocked
-//     Route::middleware(['not-blocked'])->group(function() {
-//         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index'); //map to controller which returns a view
-//         Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
-//         Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
-//     });
-
-//     //if blocked
-//     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-//     //have to be authenticated to get to blocked route, and hence the below is within 'custom-auth'
-//     Route::view('/blocked', 'blocked')->name('blocked');
-// });
+Route::middleware(['custom-auth'])->group(function() {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::middleware(['admin-auth'])->group(function() {
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+        Route::post('/admin', [AdminController::class, 'configure'])->name('admin.configure');
+    });
+});
 
 Route::middleware(['not-maintenance-mode'])->group(function() {
     Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlist.index');
@@ -76,19 +71,17 @@ Route::middleware(['not-maintenance-mode'])->group(function() {
     Route::middleware(['custom-auth'])->group(function() {
         //if not blocked
         Route::middleware(['not-blocked'])->group(function() {
+            //Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
             Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index'); //map to controller which returns a view
             Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
             Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
         });
-    
         //have to be authenticated to get to blocked route, and hence the below is within 'custom-auth'
         Route::view('/blocked', 'blocked')->name('blocked');
     });
 });
 
-Route::middleware(['custom-auth'])->group(function() {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-});
+
 Route::get('/login', [AuthController::class, 'loginForm'])->name('auth.loginForm'); //presents login form to user
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login'); //processes login
 Route::view('/maintenance', 'maintenance')->name('maintenance');

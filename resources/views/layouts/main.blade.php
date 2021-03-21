@@ -31,6 +31,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('profile.index')}}">Profile</a>
                         </li>
+                        @if (Auth::user()->role_id === App\Models\Role::getAdmin()->id)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('admin.index')}}">Admin</a>
+                            </li>
+                        @endif
                         <li>
                             <form method="post" action="{{ route('auth.logout') }}">
                                 @csrf

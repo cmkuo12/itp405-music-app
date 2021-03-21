@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'custom-auth' => \App\Http\Middleware\CustomAuthentication::class,
+        'admin-auth' => \App\Http\Middleware\AdminAuthentication::class,
         'not-blocked' => \App\Http\Middleware\PreventBlockedUsers::class,
         'not-maintenance-mode' => \App\Http\Middleware\MaintenanceMode::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,

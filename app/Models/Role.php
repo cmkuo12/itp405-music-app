@@ -14,4 +14,8 @@ class Role extends Model
     public static function getUser() {
         return self::where('slug', '=', 'user')->first(); //self references current class
     }
+
+    public static function getAdmin() {
+        return self::where('slug', '=', 'admin')->first(); //self references current class
+    }
 }

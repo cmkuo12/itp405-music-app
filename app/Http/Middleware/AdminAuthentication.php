@@ -5,8 +5,10 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Role;
 
-class CustomAuthentication
+class AdminAuthentication
 {
     /**
      * Handle an incoming request.
@@ -17,10 +19,10 @@ class CustomAuthentication
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check()) { //user is logged in
-            return $next($request); //pass request to next piece of middleware
+        if(Auth::user()->role_id === Role::getAdmin()->id) {
+            return $next($request);
         } else {
-            return redirect()->route('auth.loginForm'); //if not logged in, redirected to login page
+            return redirect()->route('auth.loginForm');
         }
     }
 }
