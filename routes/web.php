@@ -43,6 +43,10 @@ Route::middleware(['custom-auth'])->group(function() {
     });
 });
 
+Route::middleware(['admin-auth'])->group(function() {
+    //not logged in
+});
+
 Route::middleware(['not-maintenance-mode'])->group(function() {
     Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlist.index');
     Route::get('/playlists/{id}', [PlaylistController::class, 'show'])->name('playlist.show');
