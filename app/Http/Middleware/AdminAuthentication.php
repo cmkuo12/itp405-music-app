@@ -19,8 +19,12 @@ class AdminAuthentication
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->role_id === Role::getAdmin()->id) {
-            return $next($request);
+        if(Auth::check()) {
+            if(Auth::user()->role_id === Role::getAdmin()->id) {
+                return $next($request);
+            } else {
+                abort(404);
+            }
         } else {
             abort(404);
         }
