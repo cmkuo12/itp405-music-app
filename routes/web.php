@@ -34,48 +34,64 @@ Route::get('/', function () {
 
 // MVC - Model View Controller
 
+// Route::middleware(['custom-auth'])->group(function() {
+//     //if not blocked
+//     Route::middleware(['not-blocked'])->group(function() {
+//         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index'); //map to controller which returns a view
+//         Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
+//         Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
+//     });
 
+//     //if blocked
+//     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+//     //have to be authenticated to get to blocked route, and hence the below is within 'custom-auth'
+//     Route::view('/blocked', 'blocked')->name('blocked');
+// });
 
-Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlist.index');
-Route::get('/playlists/{id}', [PlaylistController::class, 'show'])->name('playlist.show');
-Route::get('/playlists/{id}/edit', [PlaylistController::class, 'edit'])->name('playlist.edit');
-Route::post('/playlist/{id}', [PlaylistController::class, 'update'])->name('playlist.update');
+Route::middleware(['not-maintenance-mode'])->group(function() {
+    Route::get('/playlists', [PlaylistController::class, 'index'])->name('playlist.index');
+    Route::get('/playlists/{id}', [PlaylistController::class, 'show'])->name('playlist.show');
+    Route::get('/playlists/{id}/edit', [PlaylistController::class, 'edit'])->name('playlist.edit');
+    Route::post('/playlist/{id}', [PlaylistController::class, 'update'])->name('playlist.update');
+    
+    Route::get('/albums_old', [AlbumController::class, 'index'])->name('album.index');
+    Route::get('/albums_old/create', [AlbumController::class, 'create'])->name('album.create');
+    Route::post('/albums_old', [AlbumController::class, 'store'])->name('album.store'); //same url but with post request to take in info from the form created
+    Route::get('/albums_old/{id}/edit', [AlbumController::class, 'edit'])->name('album.edit');
+    Route::post('/albums_old/{id}', [AlbumController::class, 'update'])->name('album.update');
+    
+    Route::get('/tracks', [TrackController::class, 'index'])->name('track.index');
+    Route::get('/tracks/new', [TrackController::class, 'create'])->name('track.create');
+    Route::post('/tracks', [TrackController::class, 'store'])->name('track.store');
+    
+    Route::get('/albums', [EloquentAlbumController::class, 'index'])->name('eloquent_album.index');
+    Route::get('/albums/create', [EloquentAlbumController::class, 'create'])->name('eloquent_album.create');
+    Route::post('/albums', [EloquentAlbumController::class, 'store'])->name('eloquent_album.store');
+    Route::get('/albums/{id}/edit', [EloquentAlbumController::class, 'edit'])->name('eloquent_album.edit');
+    Route::post('/albums/{id}', [EloquentAlbumController::class, 'update'])->name('eloquent_album.update');
+    
+    Route::get('/register', [RegistrationController::class, 'index'])->name('registration.index');
+    Route::post('/register', [RegistrationController::class, 'register'])->name('registration.create');
 
-Route::get('/albums_old', [AlbumController::class, 'index'])->name('album.index');
-Route::get('/albums_old/create', [AlbumController::class, 'create'])->name('album.create');
-Route::post('/albums_old', [AlbumController::class, 'store'])->name('album.store'); //same url but with post request to take in info from the form created
-Route::get('/albums_old/{id}/edit', [AlbumController::class, 'edit'])->name('album.edit');
-Route::post('/albums_old/{id}', [AlbumController::class, 'update'])->name('album.update');
-
-Route::get('/tracks', [TrackController::class, 'index'])->name('track.index');
-Route::get('/tracks/new', [TrackController::class, 'create'])->name('track.create');
-Route::post('/tracks', [TrackController::class, 'store'])->name('track.store');
-
-Route::get('/albums', [EloquentAlbumController::class, 'index'])->name('eloquent_album.index');
-Route::get('/albums/create', [EloquentAlbumController::class, 'create'])->name('eloquent_album.create');
-Route::post('/albums', [EloquentAlbumController::class, 'store'])->name('eloquent_album.store');
-Route::get('/albums/{id}/edit', [EloquentAlbumController::class, 'edit'])->name('eloquent_album.edit');
-Route::post('/albums/{id}', [EloquentAlbumController::class, 'update'])->name('eloquent_album.update');
-
-Route::get('/register', [RegistrationController::class, 'index'])->name('registration.index');
-Route::post('/register', [RegistrationController::class, 'register'])->name('registration.create');
-Route::get('/login', [AuthController::class, 'loginForm'])->name('auth.loginForm'); //presents login form to user
-Route::post('/login', [AuthController::class, 'login'])->name('auth.login'); //processes login
-
+    Route::middleware(['custom-auth'])->group(function() {
+        //if not blocked
+        Route::middleware(['not-blocked'])->group(function() {
+            Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index'); //map to controller which returns a view
+            Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
+            Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
+        });
+    
+        //have to be authenticated to get to blocked route, and hence the below is within 'custom-auth'
+        Route::view('/blocked', 'blocked')->name('blocked');
+    });
+});
 
 Route::middleware(['custom-auth'])->group(function() {
-    //if not blocked
-    Route::middleware(['not-blocked'])->group(function() {
-        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index'); //map to controller which returns a view
-        Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
-        Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
-    });
-
-    //if blocked
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-    //have to be authenticated to get to blocked route, and hence the below is within 'custom-auth'
-    Route::view('/blocked', 'blocked')->name('blocked');
 });
+Route::get('/login', [AuthController::class, 'loginForm'])->name('auth.loginForm'); //presents login form to user
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login'); //processes login
+Route::view('/maintenance', 'maintenance')->name('maintenance');
 
 Route::get('/eloquent', function() {
     //QUERYING

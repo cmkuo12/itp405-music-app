@@ -4,6 +4,8 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use App\Http\Middleware\CustomAuthentication;
+use App\Http\Middleware\MaintainenceMode;
+use App\Http\Middleware\PreventBlockedUsers;
 
 class Kernel extends HttpKernel
 {
@@ -57,6 +59,7 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'custom-auth' => \App\Http\Middleware\CustomAuthentication::class,
         'not-blocked' => \App\Http\Middleware\PreventBlockedUsers::class,
+        'not-maintenance-mode' => \App\Http\Middleware\MaintenanceMode::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
