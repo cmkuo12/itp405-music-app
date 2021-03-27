@@ -4,13 +4,16 @@
 
 @section('content')
     <div class="text-end mb-3">
-        <a href="{{route('eloquent_album.create')}}">New Album</a>
+        @if (Auth::check())
+            <a href="{{route('eloquent_album.create')}}">New Album</a>
+        @endif
     </div>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Album</th>
                 <th>Artist</th>
+                <th>Creator</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -22,6 +25,9 @@
                     </td>
                     <td>
                         {{$album->artist->name}}
+                    </td>
+                    <td>
+                        {{$album->user->name}}
                     </td>
                     <td>
                         <a href="{{route('eloquent_album.edit', [ 'id' => $album->id] )}}">

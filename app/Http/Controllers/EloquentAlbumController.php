@@ -12,10 +12,12 @@ class EloquentAlbumController extends Controller
 {
     public function index()
     {
-        $albums = Album::with(['artist'])
-            ->select('albums.*')
-            ->join('artists', 'artists.id', '=', 'albums.artist_id')
+        $albums = Album::join('artists', 'artists.id', '=', 'albums.artist_id')
+            ->with(['artist'])
+            ->with(['user'])
             ->orderBy('artists.name')
+            ->orderBy('title')
+            ->select('*', 'albums.id as id')
             ->get();
 
         return view('eloquent_album.index', [

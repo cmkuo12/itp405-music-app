@@ -37,6 +37,10 @@ Route::get('/', function () {
 
 Route::middleware(['custom-auth'])->group(function() {
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::get('/albums/create', [EloquentAlbumController::class, 'create'])->name('eloquent_album.create');
+    Route::post('/albums', [EloquentAlbumController::class, 'store'])->name('eloquent_album.store');
+    Route::get('/albums/{id}/edit', [EloquentAlbumController::class, 'edit'])->name('eloquent_album.edit');
+    Route::post('/albums/{id}', [EloquentAlbumController::class, 'update'])->name('eloquent_album.update');
 });
 
 Route::middleware(['admin-auth'])->group(function() {
@@ -61,11 +65,7 @@ Route::middleware(['not-maintenance-mode'])->group(function() {
     Route::post('/tracks', [TrackController::class, 'store'])->name('track.store');
     
     Route::get('/albums', [EloquentAlbumController::class, 'index'])->name('eloquent_album.index');
-    Route::get('/albums/create', [EloquentAlbumController::class, 'create'])->name('eloquent_album.create');
-    Route::post('/albums', [EloquentAlbumController::class, 'store'])->name('eloquent_album.store');
-    Route::get('/albums/{id}/edit', [EloquentAlbumController::class, 'edit'])->name('eloquent_album.edit');
-    Route::post('/albums/{id}', [EloquentAlbumController::class, 'update'])->name('eloquent_album.update');
-    
+
     Route::get('/register', [RegistrationController::class, 'index'])->name('registration.index');
     Route::post('/register', [RegistrationController::class, 'register'])->name('registration.create');
 
