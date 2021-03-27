@@ -29,11 +29,13 @@
                     <td>
                         {{$album->user->name}}
                     </td>
-                    <td>
-                        <a href="{{route('eloquent_album.edit', [ 'id' => $album->id] )}}">
-                            Edit
-                        </a>
-                    </td>
+                    @can ('view', $album)
+                        <td>
+                            <a href="{{route('eloquent_album.edit', [ 'id' => $album->id] )}}">
+                                Edit
+                            </a>
+                        </td>
+                    @endcan
                 </tr>
             @endforeach
         </tbody>

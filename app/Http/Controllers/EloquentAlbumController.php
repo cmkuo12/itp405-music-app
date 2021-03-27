@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -43,6 +44,7 @@ class EloquentAlbumController extends Controller
         $new_album = new Album();
         $new_album->title = $request->input('title');
         $new_album->artist_id = $request->input('artist');
+        $new_album->user_id = Auth::user()->id;
         $new_album->save();
 
         return redirect()
@@ -54,6 +56,7 @@ class EloquentAlbumController extends Controller
     {
         $artists = Artist::orderBy('name')->get();
         $album = Album::where('id', '=', $id)->first();
+        $this->authorize('view', $album);
         return view('eloquent_album.edit', [
             'artists' => $artists,
             'album' => $album,
@@ -68,6 +71,7 @@ class EloquentAlbumController extends Controller
         ]);
 
         $album = Album::where('id', '=', $id)->first();
+        $this->authorize('update', $album);
         $album->title = $request->input('title');
         $album->artist_id = $request->input('artist');
         $album->save();
