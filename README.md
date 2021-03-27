@@ -4,5 +4,5 @@
 # ITP 405 Assignment 6:
 [Heroku-App-Link](https://cmkuo-music-app.herokuapp.com/login) 
 
-# ITP 405 Assignment 6:
+# ITP 405 Assignment 7:
 [Heroku-App-Link](https://cmkuo-music-app.herokuapp.com/albums) 
