@@ -15,6 +15,9 @@ use App\Models\Track;
 use App\Models\Genre;
 use App\Models\Album;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewAlbum;
+use App\Jobs\AnnounceNewAlbum;
 
 
 
@@ -28,6 +31,36 @@ use Illuminate\Support\Facades\URL;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/mail', function () {
+    //send simple text mail
+    // Mail::raw('What is your favorite framework?', function($message) {
+    //     $message->to('cmkuo@usc.edu')->subject('Hello Chloe');
+    // });
+
+    //send html mail
+    // $someAlbum = Album::first();
+    // Mail::to('cmkuo@usc.edu')->send(new NewAlbum($someAlbum));
+    
+    //good for debugging/workflow
+    // return view('email.new-album', [
+    //     'album' => Album::first();
+    // ])
+
+    //send html mail
+    // dispatch(function() {
+    //     $masterOfPuppets = Album::find(152);
+    //     Mail::to('cmkuo@usc.edu')->send(new NewAlbum($masterOfPuppets));    
+    // });
+
+    // $jaggedLittlePill = Album::find(6);
+    // Mail::to('cmkuo@usc.edu')->queue(new NewAlbum($jaggedLittlePill));    
+
+    //send out email to users when a new album is created
+    $jaggedLittlePill = Album::find(6);
+    AnnounceNewAlbum::dispatch($jaggedLittlePill); //creates entry in jobs table
+    // dispatch(new AnnounceNewAlbum($jaggedLittlePill)); //equivalent to line above
+});
 
 Route::get('/', function () {
     return view('welcome');
