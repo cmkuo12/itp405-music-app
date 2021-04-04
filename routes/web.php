@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewAlbum;
 use App\Jobs\AnnounceNewAlbum;
+use App\Jobs\AnnounceStats;
 
 
 
@@ -67,6 +68,12 @@ Route::get('/', function () {
 });
 
 // MVC - Model View Controller
+
+Route::post('/stats', function() {
+    AnnounceStats::dispatch();
+    // return view('admin.index');
+    //return view('email.stats');
+})->name('stats');
 
 Route::middleware(['custom-auth'])->group(function() {
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
