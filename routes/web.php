@@ -14,11 +14,13 @@ use App\Models\Artist;
 use App\Models\Track;
 use App\Models\Genre;
 use App\Models\Album;
+use App\Models\Configuration;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewAlbum;
 use App\Jobs\AnnounceNewAlbum;
 use App\Jobs\AnnounceStats;
+
 
 
 
@@ -73,6 +75,10 @@ Route::post('/stats', function() {
     AnnounceStats::dispatch();
     // return view('admin.index');
     //return view('email.stats');
+    $maintenance_state = Configuration::getModeIsOn('maintenance-mode');
+    return view('admin.index', [
+        'maintenance_state' => $maintenance_state,
+    ]);
 })->name('stats');
 
 Route::middleware(['custom-auth'])->group(function() {
