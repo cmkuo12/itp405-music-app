@@ -35,6 +35,8 @@ use App\Jobs\AnnounceStats;
 |
 */
 
+//Route::get('api/albums', [ApiAlbumController::class, 'index'])->name('album.index');
+
 Route::get('/mail', function () {
     //send simple text mail
     // Mail::raw('What is your favorite framework?', function($message) {

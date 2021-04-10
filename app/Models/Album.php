@@ -9,6 +9,8 @@ class Album extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'artist_id']; //specify properties we are allowed to mass assign
+
     public function artist()
     {
         return $this->belongsTo(Artist::class);
