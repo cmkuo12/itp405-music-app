@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AlbumController;
+use App\Http\Controllers\Api\ArtistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,5 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('albums', AlbumController::class);
 //creates routes for verbs, assigns names based on resource and methods
-
 //Route::get('/api/albums/{id}', [AlbumController::class, 'show']);
+
+Route::resource('artists', ArtistController::class);
+
